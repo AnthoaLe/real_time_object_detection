@@ -69,7 +69,7 @@ class RealTimeDetectionScreen extends StatefulWidget {
 class _RealTimeDetectionScreenState extends State<RealTimeDetectionScreen> {
   late CameraController _controller;
   late CameraImage _image;
-  bool isDetecting = false;
+  bool isDetecting = true;
   List<dynamic>? _recognitions = [];
 
   @override void initState() {
@@ -108,8 +108,9 @@ class _RealTimeDetectionScreenState extends State<RealTimeDetectionScreen> {
   }
 
   @override void dispose() {
-    _controller?.dispose();
     Tflite?.close();
+    _controller?.stopImageStream();
+    _controller?.dispose();
     super.dispose();
   }
 
@@ -124,12 +125,11 @@ class _RealTimeDetectionScreenState extends State<RealTimeDetectionScreen> {
         useGpuDelegate: false // defaults to false, set to true to use GPU delegate
     ).then((result) {
       print(result);
-      print('after loadModel');
+      isDetecting = false;
     });
   }
 
   Future<void> runModel() async {
-    print('before detectObjectOnFrame');
     await Tflite.detectObjectOnFrame(
         bytesList: _image.planes.map((plane) {return plane.bytes;}).toList(),// required
         model: "SSDMobileNet",
@@ -142,18 +142,15 @@ class _RealTimeDetectionScreenState extends State<RealTimeDetectionScreen> {
         threshold: 0.3,     // defaults to 0.1
         asynch: true        // defaults to true
     ).then((recognitions) {
-      print('then start');
       // setState(() {});
-      isDetecting = false;
       print(recognitions);
+      isDetecting = false;
       // print(recognitions.runtimeType);   // List<Object?>
       setState(() {
         _recognitions = recognitions;
       });
-      print('then end');
       // setState(() {});
     });
-    print('after detectObjectOnFrame');
   }
 
   @override
@@ -183,24 +180,23 @@ class BoundingBoxes extends StatefulWidget {
 
 class _BoundingBoxesState extends State<BoundingBoxes> {
   List<Widget> _renderBoundingBoxes() {
-    return widget.recognitions!.asMap().map((i, re) {
-      return MapEntry(
-        i,
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-                child: Text("${re['detectedClass']}"),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.red,
-                      width: 3.0,
-                    )
+    return widget.recognitions!.map((re) {
+      return Positioned(
+        left: 0,
+        top: 0,
+        child: Container(
+            child: Text("${re['detectedClass']}"),
+            decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.red,
+                  width: 3.0,
                 )
-            ),
-          ),
-      )).toList();
+            )
+        ),
+      );
+    }).toList();
   }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
