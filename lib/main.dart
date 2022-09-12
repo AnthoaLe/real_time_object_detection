@@ -91,7 +91,6 @@ class _RealTimeDetectionScreenState extends State<RealTimeDetectionScreen> {
           isDetecting = true;
           runModel();
         }
-
       });
     }).catchError((Object error) {
       if (error is CameraException) {
@@ -124,6 +123,7 @@ class _RealTimeDetectionScreenState extends State<RealTimeDetectionScreen> {
         isAsset: true, // defaults to true, set to false to load resources outside assets
         useGpuDelegate: false // defaults to false, set to true to use GPU delegate
     ).then((result) {
+      print('after loadModel');
       print(result);
       isDetecting = false;
     });
@@ -139,7 +139,7 @@ class _RealTimeDetectionScreenState extends State<RealTimeDetectionScreen> {
         imageStd: 127.5,    // defaults to 127.5
         rotation: 90,       // defaults to 90, Android only
         numResultsPerClass: 2,      // defaults to 5
-        threshold: 0.3,     // defaults to 0.1
+        threshold: 0.5,     // defaults to 0.1
         asynch: true        // defaults to true
     ).then((recognitions) {
       // setState(() {});
@@ -159,7 +159,13 @@ class _RealTimeDetectionScreenState extends State<RealTimeDetectionScreen> {
       return Stack(
         children: <Widget>[
           CameraPreview(_controller),
-          BoundingBoxes(recognitions: _recognitions),
+          BoundingBoxes(
+            recognitions: _recognitions,
+            imageHeight: _image.height,
+            imageWidth: _image.width,
+            screenHeight: MediaQuery.of(context).size.height,
+            screenWidth: MediaQuery.of(context).size.width,
+          ),
         ],
       );
     }
@@ -170,37 +176,112 @@ class _RealTimeDetectionScreenState extends State<RealTimeDetectionScreen> {
 }
 
 class BoundingBoxes extends StatefulWidget {
-  const BoundingBoxes({Key? key, required this.recognitions}) : super(key: key);
+  const BoundingBoxes({
+    Key? key,
+    required this.recognitions,
+    required this.imageHeight,
+    required this.imageWidth,
+    required this.screenHeight,
+    required this.screenWidth,
+  }) : super(key: key);
 
   final List<dynamic>? recognitions;
+  final int imageHeight;
+  final int imageWidth;
+  final double screenHeight;
+  final double screenWidth;
 
   @override
   _BoundingBoxesState createState() => _BoundingBoxesState();
 }
 
 class _BoundingBoxesState extends State<BoundingBoxes> {
-  List<Widget> _renderBoundingBoxes() {
-    return widget.recognitions!.map((re) {
+  Widget renderBoxes() {
+    if (widget.recognitions!.isNotEmpty) {
+      double width = widget.recognitions![0]['rect']['w'] * widget.screenWidth;
+      double height = widget.recognitions![0]['rect']['h'] * widget.screenHeight;
+      double startXPosition = widget.recognitions![0]['rect']['x'] * widget.screenWidth;
+      double startYPosition = widget.recognitions![0]['rect']['y'] * widget.screenHeight;
+
       return Positioned(
-        left: 0,
-        top: 0,
+        left: startXPosition,
+        top: startYPosition,
+        width: width,
+        height: height,
         child: Container(
-            child: Text("${re['detectedClass']}"),
-            decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.red,
-                  width: 3.0,
-                )
-            )
-        ),
+          child: Text("${widget.recognitions![0]['detectedClass']}",
+            style: TextStyle(
+              color: Colors.green,
+              fontSize: 32,
+              backgroundColor: Colors.red,
+              decoration: TextDecoration.none,
+            ),
+          ),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.red,
+              width: 3.0,
+            ),
+          ),
+        )
       );
-    }).toList();
+    }
+
+    return Text('No objects detected');
   }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: _renderBoundingBoxes()
+      children: <Widget> [
+        renderBoxes(),
+      ],
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+// class BoundingBoxes extends StatefulWidget {
+//   const BoundingBoxes({Key? key, required this.recognitions}) : super(key: key);
+//
+//   final List<dynamic>? recognitions;
+//
+//   @override
+//   _BoundingBoxesState createState() => _BoundingBoxesState();
+// }
+//
+// class _BoundingBoxesState extends State<BoundingBoxes> {
+//   List<Widget> _renderBoundingBoxes() {
+//     return widget.recognitions!.map((re) {
+//       return Positioned(
+//         left: 0,
+//         top: 0,
+//         child: Container(
+//             child: Text("${re['detectedClass']}"),
+//             decoration: BoxDecoration(
+//                 border: Border.all(
+//                   color: Colors.red,
+//                   width: 3.0,
+//                 )
+//             )
+//         ),
+//       );
+//     }).toList();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: _renderBoundingBoxes()
+//     );
+//   }
+// }
