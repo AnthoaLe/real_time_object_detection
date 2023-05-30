@@ -19,6 +19,4 @@ For background resources used in this project go to the following links:
 - [TensorFlow Object Detection](https://www.tensorflow.org/lite/examples/object_detection/overview)
 
 ## Screenshots
-<img src="https://github.com/AnthoaLe/real_time_object_detection/assets/46947396/9ff0b0bb-77ab-4d34-b545-01ecf31739fa" width=50% height=50%>
-<img src="https://github.com/AnthoaLe/real_time_object_detection/assets/46947396/29f763f4-dc27-45af-992a-ce1fcf721503" width=50% height=50%>
-<img src="https://github.com/AnthoaLe/real_time_object_detection/assets/46947396/e0c8bfe2-b2fb-4714-b202-d70ea35277d5" width=50% height=50%>
+<img src="https://github.com/AnthoaLe/real_time_object_detection/assets/46947396/854dec13-3341-441c-a81b-400cb51bbc84" width=50% height=50%>
