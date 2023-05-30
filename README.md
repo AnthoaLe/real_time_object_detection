@@ -17,3 +17,8 @@ therefore only being able to identify common objects with limited specificity.
 For background resources used in this project go to the following links:
 - [Flutter](https://docs.flutter.dev/)
 - [TensorFlow Object Detection](https://www.tensorflow.org/lite/examples/object_detection/overview)
+
+Some examples of the real-time object detection in work:
+![qemu-system-x86_64_2023-05-29_19-57-44](https://github.com/AnthoaLe/real_time_object_detection/assets/46947396/9ff0b0bb-77ab-4d34-b545-01ecf31739fa)
+![qemu-system-x86_64_2023-05-29_19-58-25](https://github.com/AnthoaLe/real_time_object_detection/assets/46947396/29f763f4-dc27-45af-992a-ce1fcf721503)
+![qemu-system-x86_64_2023-05-08_16-16-00](https://github.com/AnthoaLe/real_time_object_detection/assets/46947396/e0c8bfe2-b2fb-4714-b202-d70ea35277d5)
