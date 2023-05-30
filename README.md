@@ -1,16 +1,19 @@
 # real_time_object_detection
 
-Real time object detection using tflite for Flutter.
+Real time object detection utilizing TensorFlow for Flutter in order to recognize and identify objects.
+Built within Android Studio for Android mobile devices.
 
 ## Getting Started
 
+This project requires an Android device with access to the camera in order to function.A
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+When running, from the home screen, simply tap on the Real Time Detection button and allow
+camera permissions.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Due to the limitation of running the TensorFlow Lite model, the application has limited access
+therefore only being able to identify common objects with limited specificity.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+For background resources used in this project go to the following links:
+- [Flutter](https://docs.flutter.dev/)
+- [TensorFlow Object Detection](https://www.tensorflow.org/lite/examples/object_detection/overview)
