@@ -20,3 +20,4 @@ For background resources used in this project go to the following links:
 
 ## Screenshots
 <img src="https://github.com/AnthoaLe/real_time_object_detection/assets/46947396/854dec13-3341-441c-a81b-400cb51bbc84" width=75% height=75%>
+![Example screenshot](https://github.com/AnthoaLe/real_time_object_detection/assets/46947396/854dec13-3341-441c-a81b-400cb51bbc84)
