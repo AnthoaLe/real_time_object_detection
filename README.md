@@ -5,8 +5,7 @@ Built within Android Studio for Android mobile devices.
 
 ## Getting Started
 
-This project requires an Android device with access to the camera in order to function.A
-This project is a starting point for a Flutter application.
+This project requires an Android device with access to the camera in order to function.
 
 When running, from the home screen, simply tap on the Real Time Detection button and allow
 camera permissions.
